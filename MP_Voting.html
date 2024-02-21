@@ -1,104 +1,6 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Australian Electorates Map</title>
-    <script src="https://d3js.org/d3.v7.min.js"></script>
-    <style>
-        .tooltip {
-            position: absolute;
-            background-color: white;
-            padding: 5px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            pointer-events: none;
-            opacity: 0;
-        }
-    </style>
-</head>
-<body>
-    <svg width="960" height="600"></svg>
-
-    <div class="tooltip"></div>
-
-    <script>
-        const svg = d3.select("svg");
-        const width = +svg.attr("width");
-        const height = +svg.attr("height");
-
-        const projection = d3.geoMercator()
-            .center([133, -28])
-            .scale(700)
-            .translate([width / 2, height / 2]);
-
-        const path = d3.geoPath().projection(projection);
-
-        // Add tooltip
-        const tooltip = d3.select("body").append("div")
-            .attr("class", "tooltip")
-            .style("opacity", 0);
-
-        // Create zoom behavior
-        const zoom = d3.zoom()
-            .scaleExtent([1, 8]) // Limit zoom to between 1x and 8x
-            .on("zoom", zoomed);
-
-        // Apply zoom behavior to the SVG element
-        svg.call(zoom);
-
-        function zoomed(event) {
-            svg.selectAll("path")
-                .attr("transform", event.transform); // Apply the zoom transformation to paths
-        }
-
-        // Load GeoJSON file containing electorate boundaries
-        d3.json("2021-cwlth_electoral_boundaries_geojson.geojson").then(function(geojson) {
-            // Load CSV file containing MP data
-            d3.csv("FamilynameRepsCSV.csv").then(function(data) {
-                // Convert electorate names to uppercase for consistency
-                data.forEach(function(d) {
-                    d.Electorate = d.Electorate.toUpperCase();
-                });
-
-                // Add interactivity to map
-                svg.selectAll("path")
-                    .data(geojson.features)
-                    .enter().append("path")
-                    .attr("d", path)
-                    .style("fill", "steelblue")
-                    .style("stroke", "white")
-                    .style("stroke-width", 0.5)
-                    // Add interactivity
-                    .on("mouseover", function(event, d) {
-                        d3.select(this).style("fill", "orange"); // Change color on mouseover
-                        tooltip.transition()
-                            .duration(200)
-                            .style("opacity", .9);
-                        let tooltipContent = d.properties.Elect_div; // Start with electorate name
-                        // Find corresponding MP info
-                        const mp = data.find(mp => mp.Electorate === d.properties.Elect_div.toUpperCase());
-                        if (mp) {
-                            tooltipContent += `<br><strong>${mp["Honorific"]}</strong><br>${mp["First Name"]} ${mp["Surname"]}<br>${mp["Political Party"]}<br>${mp["Telephone"]}`;
-                        }
-                        tooltip.html(tooltipContent)
-                            .style("left", (event.pageX) + "px")
-                            .style("top", (event.pageY - 28) + "px");
-                    })
-                    .on("mouseout", function() {
-                        d3.select(this).style("fill", "steelblue"); // Revert color on mouseout
-                        tooltip.transition()
-                            .duration(500)
-                            .style("opacity", 0);
-                    });
-            });
-        });
-    </script>
-</body>
-</html> -->
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -116,6 +18,7 @@
         }
     </style>
 </head>
+
 <body>
     <svg width="960" height="600"></svg>
 
@@ -148,8 +51,8 @@
 
         //colors
         const colorScale = d3.scaleOrdinal()
-    .domain(["New South Wales", "Victoria", "Queensland", "Western Australia", "South Australia", "Tasmania", "Northern Territory", "Australian Capital Territory"])
-    .range(["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b", "#e377c2", "#7f7f7f"]);
+            .domain(["New South Wales", "Victoria", "Queensland", "Western Australia", "South Australia", "Tasmania", "Northern Territory", "Australian Capital Territory"])
+            .range(["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b", "#e377c2", "#7f7f7f"]);
 
 
         function zoomed(event) {
@@ -158,11 +61,11 @@
         }
 
         // Load GeoJSON file containing electorate boundaries
-        d3.json("2021-cwlth_electoral_boundaries_geojson.geojson").then(function(geojson) {
+        d3.json("2021-cwlth_electoral_boundaries_geojson.geojson").then(function (geojson) {
             // Load CSV file containing MP data
-            d3.csv("FamilynameRepsCSV.csv").then(function(data) {
+            d3.csv("FamilynameRepsCSV.csv").then(function (data) {
                 // Convert electorate names to uppercase for consistency
-                data.forEach(function(d) {
+                data.forEach(function (d) {
                     d.Electorate = d.Electorate.toUpperCase();
                 });
 
@@ -181,22 +84,22 @@
                             return "steelblue"; // Default color for electorates without MP data
                         }
                     })*/
-                    .style("fill", function(d) {
-    // Find corresponding MP info
-    const mp = data.find(mp => mp.Electorate === d.properties.Elect_div.toUpperCase());
-    if (mp) {
-        // Use the color scale to determine the fill color based on the state
-        const state = mp.State;
-        return colorScale(state);
-    } else {
-        return "steelblue"; // Default color for electorates without MP data
-    }
-})
+                    .style("fill", function (d) {
+                        // Find corresponding MP info
+                        const mp = data.find(mp => mp.Electorate === d.properties.Elect_div.toUpperCase());
+                        if (mp) {
+                            // Use the color scale to determine the fill color based on the state
+                            const state = mp.State;
+                            return colorScale(state);
+                        } else {
+                            return "steelblue"; // Default color for electorates without MP data
+                        }
+                    })
 
                     .style("stroke", "white")
                     .style("stroke-width", 0.5)
                     // Add interactivity
-                    .on("mouseover", function(event, d) {
+                    .on("mouseover", function (event, d) {
                         d3.select(this).style("fill", "orange"); // Change color on mouseover
                         tooltip.transition()
                             .duration(200)
@@ -205,31 +108,28 @@
                             .style("left", (event.pageX) + "px")
                             .style("top", (event.pageY - 28) + "px");
                     })
-                    .on("mouseout", function() {
-                        d3.select(this).style("fill", function(d) {
-    // Find corresponding MP info
-    const mp = data.find(mp => mp.Electorate === d.properties.Elect_div.toUpperCase());
-    if (mp) {
-        // Use the color scale to determine the fill color based on the state
-        const state = mp.State;
-        return colorScale(state);
-    } else {
-        return "steelblue"; // Default color for electorates without MP data
-    }
-}); // Revert color on mouseout
+                    .on("mouseout", function () {
+                        d3.select(this).style("fill", function (d) {
+                            // Find corresponding MP info
+                            const mp = data.find(mp => mp.Electorate === d.properties.Elect_div.toUpperCase());
+                            if (mp) {
+                                // Use the color scale to determine the fill color based on the state
+                                const state = mp.State;
+                                return colorScale(state);
+                            } else {
+                                return "steelblue"; // Default color for electorates without MP data
+                            }
+                        }); // Revert color on mouseout
                         tooltip.transition()
                             .duration(500)
                             .style("opacity", 0);
-                    }); 
+                    });
 
-                
+
+
             });
         });
     </script>
 </body>
+
 </html>
-
-
-
-
-
