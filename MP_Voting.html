@@ -146,6 +146,12 @@
         // Apply zoom behavior to the SVG element
         svg.call(zoom);
 
+        //colors
+        const colorScale = d3.scaleOrdinal()
+    .domain(["New South Wales", "Victoria", "Queensland", "Western Australia", "South Australia", "Tasmania", "Northern Territory", "Australian Capital Territory"])
+    .range(["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b", "#e377c2", "#7f7f7f"]);
+
+
         function zoomed(event) {
             svg.selectAll("path")
                 .attr("transform", event.transform); // Apply the zoom transformation to paths
@@ -165,7 +171,7 @@
                     .data(geojson.features)
                     .enter().append("path")
                     .attr("d", path)
-                    .style("fill", function(d) {
+                    /*.style("fill", function(d) {
                         // Find corresponding MP info
                         const mp = data.find(mp => mp.Electorate === d.properties.Elect_div.toUpperCase());
                         if (mp) {
@@ -174,7 +180,19 @@
                         } else {
                             return "steelblue"; // Default color for electorates without MP data
                         }
-                    })
+                    })*/
+                    .style("fill", function(d) {
+    // Find corresponding MP info
+    const mp = data.find(mp => mp.Electorate === d.properties.Elect_div.toUpperCase());
+    if (mp) {
+        // Use the color scale to determine the fill color based on the state
+        const state = mp.State;
+        return colorScale(state);
+    } else {
+        return "steelblue"; // Default color for electorates without MP data
+    }
+})
+
                     .style("stroke", "white")
                     .style("stroke-width", 0.5)
                     // Add interactivity
@@ -189,13 +207,22 @@
                     })
                     .on("mouseout", function() {
                         d3.select(this).style("fill", function(d) {
-                            const mp = data.find(mp => mp.Electorate === d.properties.Elect_div.toUpperCase());
-                            return mp ? (mp["Voted for"] === "Yes" ? "green" : "red") : "steelblue";
-                        }); // Revert color on mouseout
+    // Find corresponding MP info
+    const mp = data.find(mp => mp.Electorate === d.properties.Elect_div.toUpperCase());
+    if (mp) {
+        // Use the color scale to determine the fill color based on the state
+        const state = mp.State;
+        return colorScale(state);
+    } else {
+        return "steelblue"; // Default color for electorates without MP data
+    }
+}); // Revert color on mouseout
                         tooltip.transition()
                             .duration(500)
                             .style("opacity", 0);
-                    });
+                    }); 
+
+                
             });
         });
     </script>
