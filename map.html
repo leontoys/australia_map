@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaflet Maps</title>
+    <!-- Include Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <!-- Include your custom CSS if any -->
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+</head>
+<body>
+    <!-- Map container -->
+    <div id="map" style="height: 600px;"></div>
+
+    <!-- Include Leaflet library -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <!-- Include chloropleth map JavaScript file -->
+    <script src="choropleth.js"></script>
+    <!-- Include marker map JavaScript file -->
+    <script src="map.js"></script>
+
+    <script>
+        // Initialize the map
+        var map = L.map('map').setView([-25.2744, 133.7751], 4);
+
+        // Add OpenStreetMap tiles
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 10,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+
+        // Add layer control
+        var baseMaps = {
+            "Choropleth Map": chloroplethLayer,
+            "Marker Map": markerLayer
+        };
+
+        L.control.layers(baseMaps).addTo(map);
+
+        // Initially add the choropleth layer
+        chloroplethLayer.addTo(map);
+    </script>
+</body>
+</html>
