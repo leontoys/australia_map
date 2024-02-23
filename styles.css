@@ -1,12 +1,22 @@
-/* #map {
-    height: 600px;
-} */
+/* styles.css */
+#map {
+    height: 100%;
+    max-width: 100%;
+}
 
 body {
     padding: 0;
     margin: 0;
+    font-family: Arial, sans-serif; /* Use a web-safe font */
 }
+
 html, body, #map {
     height: 100%;
-    width: 100vw;
+    width: 100%;
+}
+
+/* Additional responsive styles */
+@media only screen and (max-width: 768px) {
+    /* Adjust styles for smaller screens (e.g., smartphones) */
+    /* You can add specific styles here to improve the mobile experience */
 }
