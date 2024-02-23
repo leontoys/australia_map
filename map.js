@@ -1,5 +1,5 @@
 // Initialize the map
-var map = L.map('map').setView([-25.2744, 133.7751], 4);
+var map = L.map('map').setView([-25.2744, 133.7751], 5);
 
 // Add OpenStreetMap tiles
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -7,34 +7,34 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map);
 
-// Add a marker for a specific location (e.g., Sydney)
-//var marker = L.marker([-33.8688, 151.2093]).addTo(map);
+//Mobile
+map.locate({setView: true, maxZoom: 5});
 
-/* // Load the GeoJSON file
-fetch('electoral_boundaries_50p.geojson')
-    .then(response => response.json())
-    .then(data => {
-        // Create a GeoJSON layer and add it to the map
-        L.geoJSON(data).addTo(map);
-    }); */
+function onLocationFound(e) {
+  var radius = e.accuracy;
 
-/*  // Function to geocode electorates using Nominatim
-function geocodeElectorate(electorate, callback) {
-    // Use Nominatim API to geocode the electorate
-    fetch('https://nominatim.openstreetmap.org/search?format=json&q=' + electorate)
-      .then(response => response.json())
-      .then(data => {
-        // Extract latitude and longitude from the response
-        var latitude = data[0].lat;
-        var longitude = data[0].lon;
-        console.log([latitude, longitude]);
-        // Pass the coordinates to the callback function
-        callback([latitude, longitude]);
-      })
-      .catch(error => {
-        console.error('Error geocoding electorate:', error);
-      });
-  }  */
+  L.marker(e.latlng).addTo(map)
+      //.bindPopup("You are within " + radius + " meters from this point").openPopup();
+      .bindPopup("You are here ").openPopup();
+
+  L.circle(e.latlng, radius).addTo(map);
+}
+
+map.on('locationfound', onLocationFound);
+
+function onLocationError(e) {
+  //alert(e.message);
+  //var radius = e.accuracy;
+
+  L.marker([-33.865143, 151.209900]).addTo(map)
+      //.bindPopup("You are within " + radius + " meters from this point").openPopup();
+      //.bindPopup("You are here ").openPopup();
+
+  //L.circle(e.latlng, radius).addTo(map);
+}
+
+map.on('locationerror', onLocationError);
+
 
 // Define a custom marker icon with a watermelon image
 var watermelonIcon = L.icon({
