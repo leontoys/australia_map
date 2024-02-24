@@ -11,18 +11,53 @@
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
     <link rel="stylesheet" href="styles.css">
-        <script src="https://tfpb.techforpalestine.org/lib/banner.min.js"></script>
-        <script>
-          TFPBanner.create({
+    <script src="https://tfpb.techforpalestine.org/lib/banner.min.js"></script>
+    <script>
+        TFPBanner.create({
             theme: "auto",
             fixed: false,
-          });
-        </script>
+        });
+    </script>
 </head>
 
 <body>
+    <!-- Button to toggle something (example) -->
+    <button id="toggleButton">Toggle Map Layer</button>
     <div id="map"></div>
-    <script src="map.js"></script>
+    <script src="map.js" id="leafletScript"></script>
+    <script>
+        // Function to switch between map.js and choropleth.js
+        function switchMap(scriptSrc) {
+            // Remove existing Leaflet map instance if it exists
+            if (typeof map !== 'undefined') {
+                map.remove();
+            }
+            // Remove existing Leaflet script
+            var leafletScript = document.getElementById('leafletScript');
+            leafletScript.parentNode.removeChild(leafletScript);
+
+            // Create a new script element
+            var newScript = document.createElement('script');
+            newScript.id = 'leafletScript';
+            newScript.src = scriptSrc;
+
+            // Append the new script to the body
+            document.body.appendChild(newScript);
+        }
+        // Example event listener for the button
+        document.getElementById('toggleButton').addEventListener('click', function () {
+            // Example function to toggle something on the map
+            // This function doesn't exist, it's just an example
+            // Toggle between map.js and choropleth.js
+            var currentScript = document.getElementById('leafletScript').src;
+            if (currentScript.includes('map.js')) {
+                switchMap('choropleth.js');
+            }
+            else {
+                switchMap('map.js');
+            }
+        });
+    </script>
 </body>
 
 </html>
