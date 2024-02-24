@@ -71,7 +71,7 @@ Papa.parse('mp_data_geocoded.csv', {
       }
       else{
       // Create a marker with a popup showing MP's information
-      L.marker([latitude, longitude], { icon: pinIcon })
+      L.marker([latitude, longitude], { icon: waterIcon })
         .bindPopup('<b>' + row['Honorific'] + ' ' + row['Surname'] + ', ' + row['First Name'] + '</b><br>' +
                    'Electorate: ' + row['Electorate'] + '<br>' +
                    'Political Party: ' + row['Political Party'])
