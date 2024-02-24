@@ -63,7 +63,7 @@ Papa.parse('mp_data_geocoded.csv', {
       var longitude = parseFloat(row.Longitude);
       if(row.Voted == 'Yes'){    
       // Create a marker with a popup showing MP's information
-      L.marker([latitude, longitude], { icon: pinIcon })
+      L.marker([latitude, longitude], { icon: watermelonIcon })
         .bindPopup('<b>' + row['Honorific'] + ' ' + row['Surname'] + ', ' + row['First Name'] + '</b><br>' +
                    'Electorate: ' + row['Electorate'] + '<br>' +
                    'Political Party: ' + row['Political Party'])
@@ -71,7 +71,7 @@ Papa.parse('mp_data_geocoded.csv', {
       }
       else{
       // Create a marker with a popup showing MP's information
-      L.marker([latitude, longitude], { icon: watermelonIcon })
+      L.marker([latitude, longitude], { icon: pinIcon })
         .bindPopup('<b>' + row['Honorific'] + ' ' + row['Surname'] + ', ' + row['First Name'] + '</b><br>' +
                    'Electorate: ' + row['Electorate'] + '<br>' +
                    'Political Party: ' + row['Political Party'])
