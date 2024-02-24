@@ -55,11 +55,6 @@ var script = document.createElement('script');
 script.src = 'common.js';
 script.onload = function() {
     // Your map-specific or choropleth-specific code here
-};
-document.head.appendChild(script);
-
-
-
 // Define a custom marker icon with a watermelon image
 var watermelonIcon = L.icon({
   iconUrl: 'watermelon-icon.png', // URL to the watermelon image file
@@ -104,3 +99,9 @@ Papa.parse('mp_data_geocoded.csv', {
     });
   }
 });
+
+};
+document.head.appendChild(script);
+
+
+

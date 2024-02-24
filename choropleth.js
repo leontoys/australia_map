@@ -55,10 +55,6 @@ var script = document.createElement('script');
 script.src = 'common.js';
 script.onload = function() {
     // Your map-specific or choropleth-specific code here
-};
-document.head.appendChild(script);
-
-
 // Initialize an empty object to store MP data by electorate
 var mpData = {};
 
@@ -87,7 +83,7 @@ Papa.parse('mp_data_geocoded.csv', {
                         var mp = mpData[electorateName];
                         var fillColor = '#cccccc'; // Default color
                         if (mp) {
-                            fillColor = mp.voted === 'Yes' ? '#00FF00' : '#FF0000';
+                            fillColor = mp.voted === 'Yes' ? 'Green' : 'Red';
                         }
                         return {
                             fillColor: fillColor,
@@ -105,3 +101,8 @@ Papa.parse('mp_data_geocoded.csv', {
             });
     }
 });
+
+};
+document.head.appendChild(script);
+
+
