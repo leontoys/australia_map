@@ -1,4 +1,4 @@
-// Initialize the map
+/* // Initialize the map
 var map = L.map('map').setView([-25.2744, 133.7751], 5);
 
 // Add OpenStreetMap tiles
@@ -46,6 +46,18 @@ function onLocationError(e) {
 }
 
 map.on('locationerror', onLocationError);
+ */
+
+// map.js or choropleth.js
+
+// Dynamically load common.js
+var script = document.createElement('script');
+script.src = 'common.js';
+script.onload = function() {
+    // Your map-specific or choropleth-specific code here
+};
+document.head.appendChild(script);
+
 
 
 // Define a custom marker icon with a watermelon image
