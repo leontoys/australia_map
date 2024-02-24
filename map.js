@@ -7,6 +7,18 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map);
 
+// Custom control for the map title
+var titleControl = L.control({ position: 'topleft' });
+
+titleControl.onAdd = function(map) {
+    var div = L.DomUtil.create('div', 'map-title');
+    div.innerHTML = '<h1 style="color: #006400; text-align: center; margin: 0;">Australia for Palestine</h1>';
+    return div;
+};
+
+titleControl.addTo(map);
+
+
 //Mobile
 map.locate({setView: true, maxZoom: 5});
 
